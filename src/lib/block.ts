@@ -29,16 +29,18 @@ export default class Block {
         return sha256(this.index + this.data + this.timestamp + this.previousHash).toString();
     }
 
+
+
     /**
      * Validates the block
      * @returns Returns true if the block is valid
      */
-    isValid(): boolean{
-        if(this.index < 0) return false;
-        if(!this.hash) return false;
+    isValid(previousHash: string, previousIndex: number): boolean{
+        if(previousIndex != this.index -1) return false;
+        if(this.hash !== this.getHash()) return false;
         if(!this.data) return false;
         if(this.timestamp < 1) return false;
-        if(!this.previousHash) return false;
+        if(this.previousHash != previousHash) return false;
         return true;
     }
 }
